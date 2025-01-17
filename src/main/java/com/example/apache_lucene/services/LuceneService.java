@@ -27,11 +27,11 @@ import java.util.List;
 public class LuceneService {
 
     private final Directory indexDirectory;
-    private final StandardAnalyzer analyzer;
+    private final SynonymAnalyzer analyzer;
 
     public LuceneService() throws IOException {
         this.indexDirectory = new ByteBuffersDirectory();
-        this.analyzer = new StandardAnalyzer();
+        this.analyzer = new SynonymAnalyzer("src/main/resources/synonyms/synonyms.txt");
         indexDocuments();
     }
 
