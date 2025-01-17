@@ -20,4 +20,9 @@ public class SearchController {
     public List<String> search(@RequestParam String query) {
         return luceneService.search(query);
     }
+
+    @GetMapping("/search/content")
+    public List<String> searchContent(@RequestParam String query) {
+        return luceneService.searchContent(query);
+    }
 }

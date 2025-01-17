@@ -76,4 +76,26 @@ public class LuceneService {
         return results;
     }
 
+    public List<String> searchContent(String queryString) {
+        List<String> results = new ArrayList<>();
+        try (DirectoryReader reader = DirectoryReader.open(indexDirectory)) {
+            IndexSearcher searcher = new IndexSearcher(reader);
+            QueryParser parser = new QueryParser("content", analyzer);
+            Query query = parser.parse(queryString);
+
+            TopDocs topDocs = searcher.search(query, 10);
+            for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+                try {
+                    Document doc = searcher.storedFields().document(scoreDoc.doc);
+                    results.add(doc.get("content"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return results;
+    }
+
 }
